@@ -53,6 +53,19 @@ app.get('/api/:time?', function(req,res) {
   
 })
 
+app.get('/api/whoami', function(req, res) {
+  try {
+  const obj = {
+    ipaddress: req.headers['x-forwarded-for'],
+    language: req.headers['accept-language'],
+    software: req.headers['user-agent'],
+  }
+  return res.status(200).json(obj);
+  } catch (error) {
+    return res.json({error: error.message})
+  }
+})
+
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
